@@ -14,7 +14,7 @@ export default function YouShipSection() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-20">
           <div className="text-gambit-violet text-sm uppercase tracking-widest mb-4 reveal">You Ship</div>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gambit-cream reveal stagger-1">
+          <h2 className="font-display text-5xl md:text-6xl font-bold mb-6 text-gambit-cream reveal stagger-1">
             Your way from<br />theme to shipped
           </h2>
         </div>
@@ -28,7 +28,7 @@ export default function YouShipSection() {
               <div className="text-5xl font-bold mb-4 bg-gradient-to-r from-gambit-violet to-gambit-gold bg-clip-text text-transparent">
                 {step.num}
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gambit-cream">{step.title}</h3>
+              <h3 className="font-display text-2xl font-bold mb-3 text-gambit-cream">{step.title}</h3>
               <p className="text-gambit-muted leading-relaxed">{step.body}</p>
             </div>
           ))}

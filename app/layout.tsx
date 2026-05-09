@@ -1,11 +1,17 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk, Cinzel } from 'next/font/google';
 import './globals.css';
 import ScrollReveal from '@/components/ScrollReveal';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
+});
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  weight: ['400', '600', '700', '900'],
 });
 
 export const metadata: Metadata = {
@@ -15,8 +21,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${spaceGrotesk.variable} font-sans`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${spaceGrotesk.variable} ${cinzel.variable} font-sans`} suppressHydrationWarning>
         <ScrollReveal />
         {children}
       </body>

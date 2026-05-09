@@ -16,6 +16,7 @@ export default {
       },
       fontFamily: {
         sans: ['var(--font-space-grotesk)', 'sans-serif'],
+        display: ['var(--font-cinzel)', 'Georgia', 'serif'],
       },
     },
   },

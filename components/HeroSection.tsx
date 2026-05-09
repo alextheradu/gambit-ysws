@@ -12,10 +12,10 @@ export default function HeroSection() {
         <div className="flex items-center justify-center mb-6 reveal">
           <DiceIcon size={48} className="text-gambit-gold float-animation" />
         </div>
-        <h1 className="text-7xl md:text-9xl font-bold mb-6 text-gambit-gold tracking-tighter uppercase glitch-text reveal stagger-1">
+        <h1 className="font-display text-7xl md:text-9xl font-black mb-6 text-gambit-gold tracking-wide uppercase glitch-text reveal stagger-1">
           Gambit
         </h1>
-        <p className="text-2xl md:text-3xl text-gambit-cream mb-4 font-medium reveal stagger-2">
+        <p className="font-display text-2xl md:text-3xl text-gambit-cream mb-4 font-semibold tracking-wide reveal stagger-2">
           Stuck on what to build?
         </p>
         <p className="text-xl text-gambit-muted mb-12 max-w-xl mx-auto reveal stagger-3">

@@ -30,7 +30,7 @@ export default function DetailsSection() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-20">
           <div className="text-gambit-gold text-sm uppercase tracking-widest mb-4 reveal">Details</div>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gambit-cream reveal stagger-1">How it works</h2>
+          <h2 className="font-display text-5xl md:text-6xl font-bold mb-6 text-gambit-cream reveal stagger-1">How it works</h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-10">
@@ -39,7 +39,7 @@ export default function DetailsSection() {
               key={item.title}
               className={`pl-8 transition-colors ${revealClass[i]} ${staggerClass[i]} ${item.highlight ? 'border-l-4 border-gambit-gold hover:border-gambit-gold/70' : 'border-l-4 border-gambit-violet/40 hover:border-gambit-violet/80'}`}
             >
-              <h3 className={`text-xl font-bold mb-3 ${item.highlight ? 'bg-gradient-to-r from-gambit-gold to-gambit-violet bg-clip-text text-transparent' : 'text-gambit-cream'}`}>
+              <h3 className={`font-display text-xl font-bold mb-3 ${item.highlight ? 'bg-gradient-to-r from-gambit-gold to-gambit-violet bg-clip-text text-transparent' : 'text-gambit-cream'}`}>
                 {item.title}
               </h3>
               <p className="text-gambit-muted leading-relaxed">{item.body}</p>

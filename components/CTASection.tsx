@@ -11,7 +11,7 @@ export default function CTASection() {
         <div className="reveal">
           <DiceIcon size={64} className="text-gambit-gold mx-auto mb-8 float-animation" />
         </div>
-        <h2 className="text-5xl md:text-7xl font-bold mb-6 text-gambit-cream reveal stagger-1">
+        <h2 className="font-display text-5xl md:text-7xl font-bold mb-6 text-gambit-cream reveal stagger-1">
           Ready to roll?
         </h2>
         <p className="text-xl text-gambit-muted mb-12 max-w-xl mx-auto reveal stagger-2">
