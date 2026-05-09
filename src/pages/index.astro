@@ -1,0 +1,556 @@
+---
+import HeroChips from "../components/HeroChips.astro";
+import DraggableChip from "../components/DraggableChip.astro";
+import RollingDice from "../components/RollingDice.astro";
+import DiceIcon from "../components/DiceIcon.astro";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Gambit - Roll Your Theme, Ship Your Project</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				font-family: "Space Grotesk", sans-serif;
+			}
+			.reveal {
+				opacity: 0;
+				transform: translateY(30px);
+				transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+			}
+			.reveal.active {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.reveal-left {
+				opacity: 0;
+				transform: translateX(-50px);
+				transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+			}
+			.reveal-left.active {
+				opacity: 1;
+				transform: translateX(0);
+			}
+			.reveal-right {
+				opacity: 0;
+				transform: translateX(50px);
+				transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+			}
+			.reveal-right.active {
+				opacity: 1;
+				transform: translateX(0);
+			}
+			.stagger-1 {
+				transition-delay: 0.1s;
+			}
+			.stagger-2 {
+				transition-delay: 0.2s;
+			}
+			.stagger-3 {
+				transition-delay: 0.3s;
+			}
+			.stagger-4 {
+				transition-delay: 0.4s;
+			}
+			.glitch-text:hover {
+				animation: glitch 0.3s ease-in-out;
+			}
+			@keyframes glitch {
+				0%,
+				100% {
+					transform: translate(0);
+				}
+				20% {
+					transform: translate(-2px, 2px);
+				}
+				40% {
+					transform: translate(2px, -2px);
+				}
+				60% {
+					transform: translate(-2px, -2px);
+				}
+				80% {
+					transform: translate(2px, 2px);
+				}
+			}
+			.float-animation {
+				animation: float 6s ease-in-out infinite;
+			}
+			@keyframes float {
+				0%,
+				100% {
+					transform: translateY(0);
+				}
+				50% {
+					transform: translateY(-10px);
+				}
+			}
+			.pulse-glow {
+				animation: pulseGlow 2s ease-in-out infinite;
+			}
+			@keyframes pulseGlow {
+				0%,
+				100% {
+					box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+				}
+				50% {
+					box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+				}
+			}
+			.typewriter::after {
+				content: "|";
+				animation: blink 1s infinite;
+			}
+			@keyframes blink {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0;
+				}
+			}
+		</style>
+	</head>
+	<body
+		class="bg-gambit-dark text-white min-h-screen antialiased overflow-x-hidden"
+	>
+		<!-- Background falling chips (z-0) -->
+		<HeroChips />
+
+		<!-- Main Content (z-10) -->
+		<div class="relative z-10">
+			<!-- Hero Section -->
+			<section
+				class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+			>
+				<div class="max-w-4xl mx-auto text-center relative z-10">
+					<div class="flex items-center justify-center mb-6 reveal">
+						<DiceIcon
+							size={48}
+							className="text-gambit-gold float-animation"
+						/>
+					</div>
+					<h1
+						class="text-7xl md:text-9xl font-bold mb-6 text-gambit-gold tracking-tighter uppercase glitch-text reveal stagger-1"
+					>
+						Gambit
+					</h1>
+					<p
+						class="text-2xl md:text-3xl text-gray-300 mb-4 font-medium reveal stagger-2"
+					>
+						Stuck on what to build?
+					</p>
+					<p
+						class="text-xl text-gray-500 mb-12 max-w-xl mx-auto reveal stagger-3"
+					>
+						Let the dice decide. A YSWS where random themes meet
+						shipped projects and mystery prizes.
+					</p>
+
+					<div
+						class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20 reveal stagger-4"
+					>
+						<button
+							class="px-10 py-5 bg-gambit-gold text-black font-bold rounded-none text-lg hover:bg-white transition-colors uppercase tracking-wider pulse-glow"
+						>
+							Roll Your Theme
+						</button>
+						<button
+							class="px-10 py-5 border-2 border-gambit-gold text-gambit-gold font-bold rounded-none text-lg hover:bg-gambit-gold hover:text-black transition-colors uppercase tracking-wider"
+						>
+							How It Works
+						</button>
+					</div>
+
+					<div
+						class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
+					>
+						<div
+							class="border border-white/20 p-6 hover:border-gambit-gold/50 transition-all hover:scale-105 reveal stagger-1"
+						>
+							<div
+								class="text-gambit-gold text-sm uppercase tracking-wider mb-1"
+							>
+								01
+							</div>
+							<div class="text-white font-medium">
+								Random Themes
+							</div>
+						</div>
+						<div
+							class="border border-white/20 p-6 hover:border-gambit-gold/50 transition-all hover:scale-105 reveal stagger-2"
+						>
+							<div
+								class="text-gambit-gold text-sm uppercase tracking-wider mb-1"
+							>
+								02
+							</div>
+							<div class="text-white font-medium">
+								Build Anything
+							</div>
+						</div>
+						<div
+							class="border border-white/20 p-6 hover:border-gambit-gold/50 transition-all hover:scale-105 reveal stagger-3"
+						>
+							<div
+								class="text-gambit-gold text-sm uppercase tracking-wider mb-1"
+							>
+								03
+							</div>
+							<div class="text-white font-medium">
+								Mystery Prizes
+							</div>
+						</div>
+						<div
+							class="border border-white/20 p-6 hover:border-gambit-gold/50 transition-all hover:scale-105 reveal stagger-4"
+						>
+							<div
+								class="text-gambit-gold text-sm uppercase tracking-wider mb-1"
+							>
+								04
+							</div>
+							<div class="text-white font-medium">Community</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- You Ship Section -->
+			<section
+				class="py-32 px-4 bg-gambit-black border-t border-white/10 relative"
+				data-parallax="0.3"
+			>
+				<RollingDice />
+				<div class="max-w-6xl mx-auto">
+					<div class="mb-20">
+						<div
+							class="text-gambit-gold text-sm uppercase tracking-widest mb-4 reveal"
+						>
+							You Ship
+						</div>
+						<h2
+							class="text-5xl md:text-6xl font-bold mb-6 reveal stagger-1"
+						>
+							Your way from<br />theme to shipped
+						</h2>
+					</div>
+
+					<div class="grid md:grid-cols-2 gap-px bg-white/10">
+						<div
+							class="bg-gambit-black p-10 hover:bg-white/5 transition-all hover:scale-[1.02] reveal-left stagger-1"
+						>
+							<div
+								class="text-gambit-gold text-5xl font-bold mb-4"
+							>
+								01
+							</div>
+							<h3 class="text-2xl font-bold mb-3 text-white">
+								Roll Your Theme
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Get a broad, randomly assigned prompt unique to
+								you. No two themes are alike.
+							</p>
+						</div>
+						<div
+							class="bg-gambit-black p-10 hover:bg-white/5 transition-all hover:scale-[1.02] reveal-right stagger-2"
+						>
+							<div
+								class="text-gambit-gold text-5xl font-bold mb-4"
+							>
+								02
+							</div>
+							<h3 class="text-2xl font-bold mb-3 text-white">
+								Build It
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Make any website, app, or software that fits
+								your theme. its ur choice.
+							</p>
+						</div>
+						<div
+							class="bg-gambit-black p-10 hover:bg-white/5 transition-all hover:scale-[1.02] reveal-left stagger-3"
+						>
+							<div
+								class="text-gambit-gold text-5xl font-bold mb-4"
+							>
+								03
+							</div>
+							<h3 class="text-2xl font-bold mb-3 text-white">
+								Rerolls
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Get 2-3 free rerolls. Need more? Buy them with
+								in-game currency (name under development ;) ).
+							</p>
+						</div>
+						<div
+							class="bg-gambit-black p-10 hover:bg-white/5 transition-all hover:scale-[1.02] reveal-right stagger-4"
+						>
+							<div
+								class="text-gambit-gold text-5xl font-bold mb-4"
+							>
+								04
+							</div>
+							<h3 class="text-2xl font-bold mb-3 text-white">
+								Crowdsourced
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Contribute a theme for someone else with every
+								project you ship. BUT we review it before added.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- We Ship Section -->
+			<section
+				class="py-32 px-4 bg-gambit-dark border-t border-white/10 relative"
+				data-parallax="0.4"
+			>
+				<DraggableChip />
+				<div class="max-w-6xl mx-auto">
+					<div class="mb-20">
+						<div
+							class="text-gambit-gold text-sm uppercase tracking-widest mb-4 reveal"
+						>
+							We Ship
+						</div>
+						<h2
+							class="text-5xl md:text-6xl font-bold mb-6 reveal stagger-1"
+						>
+							Real prizes for<br />real projects
+						</h2>
+						<p
+							class="text-xl text-gray-400 max-w-xl reveal stagger-2"
+						>
+							Ship your project and we'll send a surprise physical
+							reward to your door. Effort equals loot.
+						</p>
+					</div>
+
+					<div class="grid md:grid-cols-4 gap-px bg-white/10 mb-16">
+						<div
+							class="bg-gambit-dark p-8 hover:bg-white/5 transition-all hover:scale-105 reveal stagger-1"
+						>
+							<h3 class="text-xl font-bold mb-2 text-white">
+								Stickers
+							</h3>
+							<p class="text-gray-400 text-sm">
+								top tier gambit stickers
+							</p>
+						</div>
+						<div
+							class="bg-gambit-dark p-8 hover:bg-white/5 transition-all hover:scale-105 reveal stagger-2"
+						>
+							<h3 class="text-xl font-bold mb-2 text-white">
+								Tech Gear
+							</h3>
+							<p class="text-gray-400 text-sm">
+								accessories and other stuff
+							</p>
+						</div>
+						<div
+							class="bg-gambit-dark p-8 hover:bg-white/5 transition-all hover:scale-105 reveal stagger-3"
+						>
+							<h3 class="text-xl font-bold mb-2 text-white">
+								Grants
+							</h3>
+							<p class="text-gray-400 text-sm">
+								AI credits & hosting
+							</p>
+						</div>
+						<div
+							class="bg-gambit-dark p-8 hover:bg-white/5 transition-all hover:scale-105 reveal stagger-4"
+						>
+							<h3 class="text-xl font-bold mb-2 text-white">
+								Mystery
+							</h3>
+							<p class="text-gray-400 text-sm">
+								Surprise packages???
+							</p>
+						</div>
+					</div>
+
+					<div class="border border-gambit-gold/30 p-8 reveal">
+						<h4
+							class="text-lg font-bold mb-2 text-gambit-gold uppercase tracking-wider"
+						>
+							The Criteria
+						</h4>
+						<p class="text-gray-300">
+							Your loot scales based on effort and time spent. The
+							more you put into your project, the better the
+							rewards. Have prize ideas? DM me or share in the
+							channel.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- More Info Section -->
+			<section
+				class="py-32 px-4 bg-gambit-black border-t border-white/10"
+				data-parallax="0.2"
+			>
+				<div class="max-w-6xl mx-auto">
+					<div class="mb-20">
+						<div
+							class="text-gambit-gold text-sm uppercase tracking-widest mb-4 reveal"
+						>
+							Details
+						</div>
+						<h2
+							class="text-5xl md:text-6xl font-bold mb-6 reveal stagger-1"
+						>
+							How it works
+						</h2>
+					</div>
+
+					<div class="grid md:grid-cols-2 gap-8">
+						<div
+							class="border-l-2 border-gambit-gold pl-8 reveal-left stagger-1 hover:border-gambit-gold/70 transition-colors"
+						>
+							<h3 class="text-xl font-bold mb-3 text-gambit-gold">
+								Loot System
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Prizes selected based on your project and path
+								taken. Spend credits to influence the decision
+								and increase your chances.
+							</p>
+						</div>
+						<div
+							class="border-l-2 border-white/20 pl-8 reveal-right stagger-2 hover:border-white/40 transition-colors"
+						>
+							<h3 class="text-xl font-bold mb-3 text-white">
+								Currency
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Earn chips/mana/sparks through participation.
+								Use them to buy rerolls or influence prize
+								selection.
+							</p>
+						</div>
+						<div
+							class="border-l-2 border-white/20 pl-8 reveal-left stagger-3 hover:border-white/40 transition-colors"
+						>
+							<h3 class="text-xl font-bold mb-3 text-white">
+								Launch
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Expected: TBD. Join #gambit and RSVP to stay
+								updated on the exact start date.
+							</p>
+						</div>
+						<div
+							class="border-l-2 border-white/20 pl-8 reveal-right stagger-4 hover:border-white/40 transition-colors"
+						>
+							<h3 class="text-xl font-bold mb-3 text-white">
+								Help Out
+							</h3>
+							<p class="text-gray-400 leading-relaxed">
+								Looking for organizers and staff. DM us to help
+								review themes, select prizes, or manage the
+								community.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- CTA Section -->
+			<section
+				class="py-32 px-4 bg-gambit-dark border-t border-white/10"
+				data-parallax="0.1"
+			>
+				<div class="max-w-4xl mx-auto text-center">
+					<div class="reveal">
+						<DiceIcon
+							size={64}
+							className="text-gambit-gold mx-auto mb-8 float-animation"
+						/>
+					</div>
+					<h2
+						class="text-5xl md:text-7xl font-bold mb-6 reveal stagger-1"
+					>
+						Ready to roll?
+					</h2>
+					<p
+						class="text-xl text-gray-400 mb-12 max-w-xl mx-auto reveal stagger-2"
+					>
+						Join #gambit and RSVP NOWW. Date TBD.
+					</p>
+
+					<button
+						class="px-12 py-6 bg-gambit-gold text-black font-bold text-xl hover:bg-white transition-colors uppercase tracking-wider mb-12 pulse-glow reveal stagger-3"
+					>
+						Join & RSVP
+					</button>
+
+					<div
+						class="flex flex-col sm:flex-row gap-8 justify-center items-center text-gray-400 text-sm uppercase tracking-wider reveal stagger-4"
+					>
+						<div>Free to participate</div>
+						<div class="hidden sm:block text-gambit-gold">|</div>
+						<div>Real prizes</div>
+						<div class="hidden sm:block text-gambit-gold">|</div>
+						<div>Community driven</div>
+					</div>
+
+					<div class="mt-20 pt-8 border-t border-white/10 reveal">
+						<p class="text-gray-500 text-sm">
+							Questions? DM us or ask in #gambit. Open to prize
+							suggestions.
+						</p>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- Scroll Reveal Script -->
+		<script>
+			const observerOptions = {
+				root: null,
+				rootMargin: "0px",
+				threshold: 0.1,
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("active");
+					}
+				});
+			}, observerOptions);
+
+			document
+				.querySelectorAll(".reveal, .reveal-left, .reveal-right")
+				.forEach((el) => {
+					observer.observe(el);
+				});
+
+			// Add parallax to sections
+			window.addEventListener("scroll", () => {
+				const scrolled = window.scrollY;
+				document
+					.querySelectorAll("section")
+					.forEach((section, index) => {
+						const speed = 0.5 + index * 0.1;
+						const yPos = -(scrolled * speed * 0.05);
+						section.style.transform = `translateY(${yPos}px)`;
+					});
+			});
+		</script>
+	</body>
+</html>

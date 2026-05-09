@@ -1,0 +1,283 @@
+---
+---
+
+<div class="draggable-chip-container absolute right-[5%] top-[10%] w-[200px] h-[200px] z-[50]">
+  <canvas id="draggable-chip-canvas" class="w-full h-full pointer-events-auto block"></canvas>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  class DraggableChip {
+    constructor() {
+      this.canvas = document.getElementById('draggable-chip-canvas');
+      if (!this.canvas) return;
+      
+      this.scene = new THREE.Scene();
+      this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+      this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
+      this.chip = null;
+      this.isDragging = false;
+      this.previousMousePosition = { x: 0, y: 0 };
+      this.rotationVelocity = { x: 0, y: 0, z: 0 };
+      
+      this.init();
+    }
+
+    init() {
+      this.renderer.setSize(200, 200);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      this.scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      dirLight.position.set(5, 10, 7);
+      this.scene.add(dirLight);
+
+      const pointLight = new THREE.PointLight(0xffd700, 0.5, 10);
+      pointLight.position.set(0, 2, 3);
+      this.scene.add(pointLight);
+
+      
+      this.chip = this.createChip();
+      this.scene.add(this.chip);
+
+      
+      this.camera.position.z = 4;
+
+      
+      this.canvas.addEventListener('mousedown', (e) => this.onDragStart(e));
+      this.canvas.addEventListener('mousemove', (e) => this.onDragMove(e));
+      this.canvas.addEventListener('mouseup', () => this.onDragEnd());
+      this.canvas.addEventListener('mouseleave', () => this.onDragEnd());
+      
+      
+      this.canvas.addEventListener('touchstart', (e) => this.onDragStart(e.touches[0]));
+      this.canvas.addEventListener('touchmove', (e) => { e.preventDefault(); this.onDragMove(e.touches[0]); });
+      this.canvas.addEventListener('touchend', () => this.onDragEnd());
+
+      
+      this.animate();
+    }
+
+    createChip() {
+      const group = new THREE.Group();
+
+      
+      const geometry = new THREE.CylinderGeometry(1, 1, 0.1, 48);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a,
+        metalness: 0.9,
+        roughness: 0.3,
+      });
+      const cylinder = new THREE.Mesh(geometry, material);
+      group.add(cylinder);
+
+      
+      const edgeRingGeometry = new THREE.CylinderGeometry(0.96, 0.96, 0.105, 48);
+      const edgeRingMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 0.95,
+        roughness: 0.15,
+      });
+      const edgeRing = new THREE.Mesh(edgeRingGeometry, edgeRingMaterial);
+      group.add(edgeRing);
+
+      
+      const innerBlackRingGeometry = new THREE.CylinderGeometry(0.88, 0.88, 0.11, 48);
+      const innerBlackRingMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a,
+        metalness: 0.9,
+        roughness: 0.2,
+      });
+      const innerBlackRing = new THREE.Mesh(innerBlackRingGeometry, innerBlackRingMaterial);
+      group.add(innerBlackRing);
+
+      
+      const innerRingGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.115, 48);
+      const innerRingMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 0.92,
+        roughness: 0.12,
+      });
+      const innerRing = new THREE.Mesh(innerRingGeometry, innerRingMaterial);
+      group.add(innerRing);
+
+      
+      const centerBaseGeometry = new THREE.CylinderGeometry(0.7, 0.7, 0.15, 48);
+      const centerBaseMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a,
+        metalness: 0.9,
+        roughness: 0.25,
+      });
+      const centerBase = new THREE.Mesh(centerBaseGeometry, centerBaseMaterial);
+      group.add(centerBase);
+
+      
+      for (let i = 0; i < 4; i++) {
+        const angle = (i / 4) * Math.PI * 2;
+        const crossGeometry = new THREE.BoxGeometry(0.05, 0.16, 0.4);
+        const crossMaterial = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          metalness: 0.95,
+          roughness: 0.1,
+        });
+        const cross = new THREE.Mesh(crossGeometry, crossMaterial);
+        cross.position.set(
+          Math.cos(angle) * 0.18,
+          0.08,
+          Math.sin(angle) * 0.18
+        );
+        cross.rotation.y = angle;
+        group.add(cross);
+      }
+
+      
+      const centerDotGeometry = new THREE.CylinderGeometry(0.18, 0.18, 0.18, 32);
+      const centerDotMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 0.98,
+        roughness: 0.05,
+      });
+      const centerDot = new THREE.Mesh(centerDotGeometry, centerDotMaterial);
+      centerDot.position.y = 0.09;
+      group.add(centerDot);
+
+      
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const dotGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.17, 16);
+        const dotMaterial = new THREE.MeshStandardMaterial({
+          color: i % 2 === 0 ? 0xffffff : 0x1a1a1a,
+          metalness: 0.9,
+          roughness: 0.15,
+        });
+        const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+        dot.position.set(
+          Math.cos(angle) * 0.52,
+          0.085,
+          Math.sin(angle) * 0.52
+        );
+        group.add(dot);
+      }
+
+      
+      group.rotation.x = 0.3;
+      group.rotation.y = 0.5;
+
+      return group;
+    }
+
+    onDragStart(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.isDragging = true;
+      this.previousMousePosition = { x: e.clientX, y: e.clientY };
+      this.rotationVelocity = { x: 0, y: 0, z: 0 };
+      this.canvas.style.cursor = 'grabbing';
+    }
+
+    onDragMove(e) {
+      if (!this.isDragging || !this.chip) return;
+      e.preventDefault();
+      
+      const deltaX = e.clientX - this.previousMousePosition.x;
+      const deltaY = e.clientY - this.previousMousePosition.y;
+      
+      
+      this.rotationVelocity.y = deltaX * 0.01;  
+      this.rotationVelocity.x = deltaY * 0.01;  
+      this.rotationVelocity.z = deltaX * 0.005; 
+      
+      this.chip.rotation.y += this.rotationVelocity.y;
+      this.chip.rotation.x += this.rotationVelocity.x;
+      this.chip.rotation.z += this.rotationVelocity.z;
+      
+      this.previousMousePosition = { x: e.clientX, y: e.clientY };
+    }
+
+    onDragEnd() {
+      this.isDragging = false;
+      this.canvas.style.cursor = 'grab';
+    }
+
+    animate() {
+      requestAnimationFrame(() => this.animate());
+
+      if (this.chip) {
+        if (this.isDragging) {
+          
+          this.chip.rotation.y += this.rotationVelocity.y;
+          this.chip.rotation.x += this.rotationVelocity.x;
+          this.chip.rotation.z += this.rotationVelocity.z;
+        } else {
+          
+          this.chip.rotation.y += this.rotationVelocity.y;
+          this.chip.rotation.x += this.rotationVelocity.x;
+          this.chip.rotation.z += this.rotationVelocity.z;
+          
+          
+          this.rotationVelocity.x *= 0.96;
+          this.rotationVelocity.y *= 0.96;
+          this.rotationVelocity.z *= 0.96;
+          
+          
+          const velocityMagnitude = Math.sqrt(
+            this.rotationVelocity.x ** 2 + 
+            this.rotationVelocity.y ** 2 + 
+            this.rotationVelocity.z ** 2
+          );
+          
+          if (velocityMagnitude < 0.01) {
+            
+            const homeX = 0.3;
+            const homeY = 0.5;
+            const homeZ = 0;
+            
+            
+            this.chip.rotation.x += (homeX - this.chip.rotation.x) * 0.03;
+            this.chip.rotation.y += (homeY - this.chip.rotation.y) * 0.03;
+            this.chip.rotation.z += (homeZ - this.chip.rotation.z) * 0.03;
+            
+            
+            if (Math.abs(this.chip.rotation.x - homeX) < 0.01 && 
+                Math.abs(this.chip.rotation.y - homeY) < 0.01 &&
+                Math.abs(this.chip.rotation.z - homeZ) < 0.01) {
+              this.rotationVelocity.x = 0;
+              this.rotationVelocity.y = 0;
+              this.rotationVelocity.z = 0;
+            }
+          }
+        }
+      }
+
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new DraggableChip());
+  } else {
+    new DraggableChip();
+  }
+</script>
+
+<style>
+  .draggable-chip-container {
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #draggable-chip-canvas {
+    cursor: grab;
+    display: block;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+  #draggable-chip-canvas:active {
+    cursor: grabbing;
+  }
+</style>
