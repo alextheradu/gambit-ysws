@@ -1,19 +1,23 @@
-
+/** @type {import('tailwindcss').Config} */
 export default {
-	content: ['./src*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-	theme: {
-		extend: {
-			colors: {
-				gambit: {
-					gold: '#FFD700',
-					red: '#DC2626',
-					blue: '#2563EB',
-					green: '#16A34A',
-					black: '#1a1a1a',
-					dark: '#0f0f0f',
-				}
-			}
-		},
-	},
-	plugins: [],
-}
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        gambit: {
+          dark: '#0D0010',
+          black: '#130018',
+          card: '#1A0025',
+          gold: '#C8A96E',
+          violet: '#8B2FC9',
+          cream: '#F5F0E8',
+          muted: '#9B8EA8',
+        },
+      },
+      fontFamily: {
+        sans: ['var(--font-space-grotesk)', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};

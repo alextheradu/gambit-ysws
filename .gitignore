@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.next/
+.playwright-mcp/
+gambit-full.png
+gambit-revealed.png
+next-env.d.ts
