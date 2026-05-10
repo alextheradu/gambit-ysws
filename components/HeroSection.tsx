@@ -1,33 +1,130 @@
-import DiceIcon from './DiceIcon';
+'use client';
+import { useRef, useState, useCallback } from 'react';
+
+type Theme = { parts: [string, string, string]; full: string };
+
+const THEMES: Theme[] = [
+  { parts: ['Build a',   'Slack',    'bot'],        full: 'Slack bot' },
+  { parts: ['IDE',       'plugin or','extension'],   full: 'IDE extension' },
+  { parts: ['Browser',   'ext. for', 'the web'],     full: 'Browser extension' },
+  { parts: ['A project', 'built for','Gambit'],      full: 'A project relating to Gambit' },
+  { parts: ['An AI that','can beat', 'any game'],    full: 'An AI to beat or solve a game' },
+  { parts: ['Make it',   'look',     'terrible'],    full: 'Bad GUI' },
+  { parts: ['Terminal',  'only',     'no clicks'],   full: 'Terminal only' },
+  { parts: ['No JS',     'HTML &',   'CSS only'],    full: 'No JavaScript - HTML and CSS only' },
+];
+
+// Filler words that spin past — purely visual noise
+const NOISE: [string[], string[], string[]] = [
+  ['Make a', 'Ship a', 'Write a', 'Create a', 'Deploy a', 'Design a', 'Launch a', 'Build a'],
+  ['browser', 'terminal', 'AI that', 'tool for', 'plugin or', 'bot that', 'ext. for', 'only'],
+  ['no clicks', 'any game', 'CSS only', 'the web', 'extension', 'Gambit', 'terrible', 'no JS'],
+];
+
+const ROW_HEIGHT = 140;
+const REPEATS = 20;
+const LAND_IDX = REPEATS - 4;
+
+function buildStrip(col: HTMLDivElement, noise: string[], landWord: string) {
+  while (col.firstChild) col.removeChild(col.firstChild);
+  const pool = [...noise];
+  for (let j = 0; j < REPEATS; j++) {
+    const div = document.createElement('div');
+    if (j === LAND_IDX) {
+      div.className = 'item accent';
+      div.textContent = landWord;
+    } else {
+      div.className = 'item';
+      div.textContent = pool[j % pool.length];
+    }
+    col.appendChild(div);
+  }
+}
 
 export default function HeroSection() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-      <div className="absolute top-24 left-8 text-8xl text-gambit-gold/10 pointer-events-none select-none font-bold">♠</div>
-      <div className="absolute top-32 right-8 text-7xl text-gambit-gold/10 pointer-events-none select-none font-bold">♥</div>
-      <div className="absolute bottom-32 left-12 text-9xl text-gambit-gold/10 pointer-events-none select-none font-bold">♦</div>
-      <div className="absolute bottom-24 right-12 text-8xl text-gambit-gold/10 pointer-events-none select-none font-bold">♣</div>
+  const stripRefs  = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const historyRef = useRef<number[]>([]);
+  const [theme, setTheme]   = useState(THEMES[4].full);
+  const [rolling, setRolling] = useState(false);
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="flex items-center justify-center mb-6 reveal">
-          <DiceIcon size={48} className="text-gambit-gold float-animation" />
+  const pickNext = useCallback((): Theme => {
+    const blocked = new Set(historyRef.current.slice(-4));
+    const pool = THEMES.map((_, i) => i).filter(i => !blocked.has(i));
+    const idx = pool[Math.floor(Math.random() * pool.length)];
+    historyRef.current = [...historyRef.current, idx].slice(-5);
+    return THEMES[idx];
+  }, []);
+
+  const spin = useCallback(() => {
+    if (rolling) return;
+    setRolling(true);
+
+    const picked = pickNext();
+
+    picked.parts.forEach((word, i) => {
+      const col = stripRefs.current[i];
+      if (!col) return;
+      buildStrip(col, NOISE[i], word);
+      col.style.transition = 'none';
+      col.style.transform = 'translateY(0)';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        col.style.transition = `transform ${1.5 + i * 0.2}s cubic-bezier(.18,.7,.18,1)`;
+        col.style.transform = `translateY(-${LAND_IDX * ROW_HEIGHT}px)`;
+      }));
+    });
+
+    setTimeout(() => {
+      setTheme(picked.full);
+      setRolling(false);
+    }, 1900);
+  }, [rolling, pickNext]);
+
+  return (
+    <section className="hero" id="top">
+      <div className="wrap grid">
+        <div>
+          <span className="eyebrow">a YSWS · ship a thing · get mailed loot</span>
+          <h1>
+            Build the&nbsp;thing<br />
+            the <span className="red">dice</span> told<br />
+            you to <span className="ital stroke">build.</span>
+          </h1>
+          <p className="lede">
+            You don&apos;t pick the prompt. It picks you. Get a random theme, build a website or software project around it, ship it, and we mail you a surprise reward. Stickers, mystery loot, micro-grants, scaled by hours, effort, and how much was you vs. the AI.
+          </p>
+          <div className="cta">
+            <a className="btn btn-primary" href="https://gambit.fillout.com/rsvp" style={{ padding: '13px 22px', fontSize: '15px' }}>RSVP &amp; roll your first theme</a>
+            <a className="btn btn-ghost" href="#rules" style={{ padding: '13px 18px' }}>How it works ↓</a>
+          </div>
         </div>
-        <h1 className="font-display text-7xl md:text-9xl font-black mb-6 text-gambit-gold tracking-wide uppercase glitch-text reveal stagger-1">
-          Gambit
-        </h1>
-        <p className="font-display text-2xl md:text-3xl text-gambit-cream mb-4 font-semibold tracking-wide reveal stagger-2">
-          Stuck on what to build?
-        </p>
-        <p className="text-xl text-gambit-muted mb-12 max-w-xl mx-auto reveal stagger-3">
-          Let the dice decide. A YSWS where random themes meet shipped projects and mystery prizes.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center reveal stagger-4">
-          <button className="px-10 py-5 bg-gambit-violet text-white font-bold text-lg hover:bg-gambit-violet/80 transition-colors uppercase tracking-wider pulse-glow">
-            Roll Your Theme
-          </button>
-          <a href="#how-it-works" className="px-10 py-5 border-2 border-gambit-gold text-gambit-gold font-bold text-lg hover:bg-gambit-gold hover:text-black transition-colors uppercase tracking-wider">
-            How It Works
-          </a>
+
+        <div className="reel-wrap">
+          <div className="reel">
+            <div className="head">
+              <span className="pill"><span className="live"></span>theme reel · live</span>
+            </div>
+            <div className="slots">
+              {([0, 1, 2] as const).map(i => (
+                <div className="slot" key={i}>
+                  <div className="strip" ref={el => { stripRefs.current[i] = el; }}>
+                    <div className="item accent">{THEMES[4].parts[i]}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="out">
+              <div>
+                <div className="lbl">your assigned theme</div>
+                <div className="theme">{theme}</div>
+              </div>
+            </div>
+            <div className="actions">
+              <button className="btn" onClick={spin} disabled={rolling}>
+                {rolling ? 'rolling…' : '↻ Roll the reel'}
+              </button>
+              <a className="btn btn-primary" href="https://gambit.fillout.com/rsvp" style={{ fontSize: '14px' }}>Lock it in →</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

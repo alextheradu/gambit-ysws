@@ -1,29 +1,33 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Cinzel } from 'next/font/google';
+import { Syne, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import ScrollReveal from '@/components/ScrollReveal';
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
+  weight: ['400', '500', '600', '700', '800'],
+});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
 });
 
-const cinzel = Cinzel({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-cinzel',
-  weight: ['400', '600', '700', '900'],
+  variable: '--font-jetbrains-mono',
+  weight: ['400', '500', '700'],
 });
 
 export const metadata: Metadata = {
-  title: 'Gambit — Roll Your Theme, Ship Your Project',
+  title: 'Gambit: ship a thing the dice told you to.',
   description: 'A Hack Club YSWS where random themes meet shipped projects and mystery prizes.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${spaceGrotesk.variable} ${cinzel.variable} font-sans`} suppressHydrationWarning>
-        <ScrollReveal />
+      <body className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
         {children}
       </body>
     </html>

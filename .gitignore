@@ -27,3 +27,11 @@ pnpm-debug.log*
 gambit-full.png
 gambit-revealed.png
 next-env.d.ts
+
+# misc
+.next
+.claude
+.vscode
+.log
+.playwright-mcp
+.superpowers

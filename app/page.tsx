@@ -1,32 +1,26 @@
 import Navbar from '@/components/Navbar';
+import ScrollAnimations from '@/components/ScrollAnimations';
 import HeroSection from '@/components/HeroSection';
-import YouShipSection from '@/components/YouShipSection';
-import WeShipSection from '@/components/WeShipSection';
-import DetailsSection from '@/components/DetailsSection';
+import MarqueeSection from '@/components/MarqueeSection';
+import RulesSection from '@/components/RulesSection';
+import DeckSection from '@/components/DeckSection';
+import PotSection from '@/components/PotSection';
+import FAQSection from '@/components/FAQSection';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
-import { HeroChipsScene, RollingDiceScene, DraggableChipScene } from '@/components/ThreeScenes';
 
 export default function Home() {
   return (
     <>
+      <ScrollAnimations />
       <Navbar />
-      <div className="relative">
-        <HeroChipsScene />
-        <div className="relative z-10">
-          <HeroSection />
-          <div className="relative">
-            <RollingDiceScene />
-            <YouShipSection />
-          </div>
-          <div className="relative">
-            <DraggableChipScene />
-            <WeShipSection />
-          </div>
-          <DetailsSection />
-          <CTASection />
-        </div>
-      </div>
+      <HeroSection />
+      <MarqueeSection />
+      <RulesSection />
+      <DeckSection />
+      <PotSection />
+      <FAQSection />
+      <CTASection />
       <Footer />
     </>
   );

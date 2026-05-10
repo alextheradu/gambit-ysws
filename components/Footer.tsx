@@ -1,22 +1,43 @@
-import DiceIcon from './DiceIcon';
-
 export default function Footer() {
   return (
-    <footer className="py-8 px-8 border-t border-gambit-gold/20" style={{ background: '#080010' }}>
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="flex items-center gap-2 text-gambit-gold font-bold uppercase tracking-wider text-sm">
-          <DiceIcon size={16} className="text-gambit-gold" />
-          Gambit
-          <span className="text-gambit-muted font-normal normal-case tracking-normal ml-2">· A Hack Club YSWS</span>
+    <footer>
+      <div className="wrap">
+        <div className="row">
+          <div className="col" style={{ maxWidth: '300px' }}>
+            <div className="brand" style={{ marginBottom: '12px' }}>
+              <span className="die" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </span>
+              gambit
+            </div>
+            <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+              A YSWS for builders who want a prompt, not a brief. Roll the dice, ship the thing, check your mailbox.
+            </p>
+          </div>
+          <div className="col">
+            <h5>Play</h5>
+            <a href="https://gambit.fillout.com/rsvp">RSVP</a>
+            <a href="#rules">Rules</a>
+            <a href="#deck">The deck</a>
+            <a href="#pot">The pot</a>
+          </div>
+          <div className="col">
+            <h5>Community</h5>
+            <a href="https://gambit.fillout.com/rsvp">Submit a theme</a>
+            <a href="#">Discord</a>
+            <a href="#">Archive</a>
+          </div>
+          <div className="col">
+            <h5>Stuff</h5>
+            <a href="#faq">FAQ</a>
+            <a href="#">Press kit</a>
+            <a href="mailto:hi@gambit.dev">Email us</a>
+          </div>
         </div>
-        <div className="flex items-center gap-6 text-gambit-muted text-xs uppercase tracking-wider">
-          <a href="#" className="hover:text-gambit-gold transition-colors">#gambit</a>
-          <a href="#prizes" className="hover:text-gambit-gold transition-colors">Prizes</a>
-          <a href="#join" className="hover:text-gambit-gold transition-colors">Join</a>
+        <div className="legal">
+          <span>© 2026 Gambit · A Hack Club YSWS · made on a dare</span>
+          <span>v0.1 · season one opens soon</span>
         </div>
-      </div>
-      <div className="max-w-6xl mx-auto mt-6 pt-4 border-t border-white/5">
-        <p className="text-gambit-muted text-xs text-center">Questions? DM us or ask in #gambit. Open to prize suggestions.</p>
       </div>
     </footer>
   );

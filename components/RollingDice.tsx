@@ -38,7 +38,7 @@ export default function RollingDice() {
     const diceGroup = new THREE.Group();
     diceGroup.add(new THREE.Mesh(
       new THREE.BoxGeometry(1.8, 1.8, 1.8),
-      new THREE.MeshStandardMaterial({ color: 0xf5f5f5, metalness: 0.1, roughness: 0.4 })
+      new THREE.MeshStandardMaterial({ color: 0xEAC97A, metalness: 0.15, roughness: 0.35 })
     ));
     addFaceDots(diceGroup, [{ x: 0, y: 0, z: 0.91 }], 0.22);
     addFaceDots(diceGroup, [{ x: -0.5, y: 0.5, z: -0.91 }, { x: 0.5, y: -0.5, z: -0.91 }], 0.18);

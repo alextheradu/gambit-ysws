@@ -1,31 +1,20 @@
-import DiceIcon from './DiceIcon';
-
 export default function CTASection() {
   return (
-    <section id="join" className="py-32 px-4 bg-gambit-dark border-t border-white/10 relative overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <span className="text-[22rem] leading-none text-gambit-violet/5 font-bold">♦</span>
-      </div>
-
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="reveal">
-          <DiceIcon size={64} className="text-gambit-gold mx-auto mb-8 float-animation" />
-        </div>
-        <h2 className="font-display text-5xl md:text-7xl font-bold mb-6 text-gambit-cream reveal stagger-1">
-          Ready to roll?
-        </h2>
-        <p className="text-xl text-gambit-muted mb-12 max-w-xl mx-auto reveal stagger-2">
-          Join #gambit and RSVP now. Date TBD.
-        </p>
-        <button className="px-12 py-6 bg-gambit-gold text-black font-bold text-xl hover:bg-gambit-cream transition-colors uppercase tracking-wider mb-12 pulse-glow reveal stagger-3">
-          Join & RSVP
-        </button>
-        <div className="flex flex-col sm:flex-row gap-8 justify-center items-center text-gambit-muted text-sm uppercase tracking-wider reveal stagger-4">
-          <span>Free to participate</span>
-          <span className="hidden sm:block text-gambit-violet">|</span>
-          <span>Real prizes</span>
-          <span className="hidden sm:block text-gambit-violet">|</span>
-          <span>Community driven</span>
+    <section className="sec" style={{ paddingTop: 0 }}>
+      <div className="wrap">
+        <div className="table-cta" style={{ padding: '90px 40px 110px', textAlign: 'center', borderRadius: '20px', position: 'relative', overflow: 'visible' }}>
+          <span className="eyebrow" style={{ color: 'rgba(255,255,255,.7)', justifyContent: 'center' }}>ready to play</span>
+          <h2 style={{ marginTop: '14px' }}>Ready to<br /><em>roll?</em></h2>
+          <p>Join #gambit and RSVP now. Roll the dice, ship the thing, check your mailbox.</p>
+          <div className="actions">
+            <a className="btn btn-primary" href="https://gambit.fillout.com/rsvp">RSVP &amp; roll your first theme →</a>
+            <a className="btn btn-ghost" href="#rules" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.25)' }}>See the rules</a>
+          </div>
+          <div className="chips" aria-hidden="true">
+            <div className="chip"></div>
+            <div className="chip green"></div>
+            <div className="chip gold"></div>
+          </div>
         </div>
       </div>
     </section>
