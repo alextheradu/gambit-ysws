@@ -33,7 +33,10 @@ export default function Footer() {
           </div>
         </div>
         <div className="legal">
-          <span>© 2026 Gambit · A Hack Club YSWS</span>
+          <span>© 2026 Gambit · A <a href="https://hackclub.com/">Hack Club</a> YSWS</span>
+          <a href="https://hackclub.com/" className="hc-flag-link">
+            <img src="/hackclub/flag-standalone.svg" alt="Hack Club" style={{ height: '32px', width: 'auto' }} />
+          </a>
           <span>v1 opens soon (prob mid-june to early july)</span>
         </div>
       </div>
